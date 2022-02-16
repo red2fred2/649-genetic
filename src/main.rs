@@ -37,11 +37,14 @@ fn main() {
 				let xi = rng.gen_range(0..population.len());
 				let yi = rng.gen_range(0..population.len());
 
+				// Get that survivor
 				let x = &population[xi];
 				let y = &population[yi];
 
+				// Breed the survivors
 				let new = crossover(x, y, &mut rng);
 
+				// Add that to the population
 				population.push(new);
 			}
 		} else {
@@ -69,18 +72,24 @@ fn main() {
 
 }
 
+// Fitness function
 fn fitness(x: &f64) -> f64 {
 	4. + 2. * x + 2. * (20. * x).sin() - 4. * x.powi(2)
 }
 
 fn mutate(x: f64, rng: &mut ThreadRng) -> f64 {
+	// Choose random number between 0 and 1
 	let mutation_num = rng.gen_range(0.0..1.0);
 
+	// Choose how to mutate based on that number
 	if mutation_num < 0.3 {
+		// Move left
 		return x - EPSILON
 	} else if mutation_num > 0.7 {
+		// Move right
 		return x + EPSILON
 	} else {
+		// Don't move
 		return x
 	}
 }
